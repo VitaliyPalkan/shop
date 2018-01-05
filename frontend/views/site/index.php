@@ -15,7 +15,9 @@ $this->title = 'My Yii Application';
     </div>
 
     <div class="body-content">
-
+<?php if (Yii::$app->user->isGuest) {
+    echo "Hello Vitaliy";
+} else { echo Yii::$app->user->id; } ?>
         <div class="row">
             <div class="col-lg-4">
                 <h2>Heading</h2>
