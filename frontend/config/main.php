@@ -21,15 +21,15 @@ return [
             'cookieValidationKey' => $params['cookieValidationKey'],
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'shop\entities\User\User',
             'enableAutoLogin' => true,
-            'loginUrl' => 'site/login',
+            'loginUrl' => 'auth/auth/login',
             'identityCookie' => ['name' => '_identity', 'httpOnly' => true, 'domain' => $params['cookieDomain']],
         ],
         'session' => [
             'name' => '_session',
             'cookieParams' => [
-//                'domain' => $params['cookieDomain'],
+                'domain' => $params['cookieDomain'],
                 'httpOnly' => true,
             ],
         ],

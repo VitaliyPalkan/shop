@@ -22,7 +22,7 @@ return [
             'cookieValidationKey' => $params['cookieValidationKey'],
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'shop\entities\User\User',
             'enableAutoLogin' => true,
             'loginUrl' => 'site/login',
             'identityCookie' => ['name' => '_identity', 'httpOnly' => true, 'domain' => $params['cookieDomain']],
@@ -30,7 +30,7 @@ return [
         'session' => [
             'name' => '_session',
             'cookieParams' => [
-//                'domain' => $params['cookieDomain'],
+                'domain' => $params['cookieDomain'],
                 'httpOnly' => true,
             ],
         ],
