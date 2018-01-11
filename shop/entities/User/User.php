@@ -5,6 +5,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -55,7 +56,7 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
-    public static function create($username, $email, $password)
+    public static function create($username, $email, $password): self
     {
         $user = new User();
         $user->username = $username;
@@ -67,14 +68,14 @@ class User extends ActiveRecord implements IdentityInterface
         return $user;
     }
 
-    public function edit($username, $email)
+    public function edit($username, $email): void
     {
         $this->username = $username;
         $this->email = $email;
         $this->updated_at = time();
     }
 
-    public static function requestSignup($username, $email, $password)
+    public static function requestSignup($username, $email, $password): self
     {
         $user = new User();
         $user->username = $username;
@@ -87,7 +88,7 @@ class User extends ActiveRecord implements IdentityInterface
         return $user;
     }
 
-    public function confirmSignup()
+    public function confirmSignup(): void
     {
         if (!$this->isWait()) {
             throw new \DomainException('User is already active.');
@@ -96,7 +97,7 @@ class User extends ActiveRecord implements IdentityInterface
         $this->email_confirm_token = null;
     }
 
-    public static function signupByNetwork($network, $identity)
+    public static function signupByNetwork($network, $identity): self
     {
         $user = new User();
         $user->created_at = time();
@@ -106,7 +107,7 @@ class User extends ActiveRecord implements IdentityInterface
         return $user;
     }
 
-    public function attachNetwork($network, $identity)
+    public function attachNetwork($network, $identity): void
     {
         $networks = $this->networks;
         foreach ($networks as $current) {
@@ -118,17 +119,18 @@ class User extends ActiveRecord implements IdentityInterface
         $this->networks = $networks;
     }
 
-    public function isWait()
+    public function isWait(): bool
     {
         return $this->status === self::STATUS_WAIT;
     }
 
 
-    public function isActive(){
+    public function isActive(): bool
+    {
         return $this->status == self::STATUS_ACTIVE;
     }
 
-    public function getNetworks()
+    public function getNetworks(): ActiveQuery
     {
         return $this->hasMany(Network::className(), ['user_id' => 'id']);
     }
@@ -265,7 +267,7 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = null;
     }
 
-    public function requestPasswordReset()
+    public function requestPasswordReset(): void
     {
         if (!empty($this->password_reset_token) && self::isPasswordResetTokenValid($this->password_reset_token)) {
             throw new \DomainException('Password resetting is already requested.');
@@ -273,7 +275,7 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
 
-    public function resetPassword($password)
+    public function resetPassword($password): void
     {
         if (empty($this->password_reset_token)) {
             throw new \DomainException('Password resetting is not requested.');

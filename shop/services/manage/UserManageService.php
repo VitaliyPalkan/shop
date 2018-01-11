@@ -16,7 +16,7 @@ class UserManageService
         $this->repository = $repository;
     }
 
-    public function create(UserCreateForm $form)
+    public function create(UserCreateForm $form): User
     {
         $user = User::create(
             $form->username,
@@ -27,7 +27,7 @@ class UserManageService
         return $user;
     }
 
-    public function edit($id, UserEditForm $form)
+    public function edit($id, UserEditForm $form): void
     {
         $user = $this->repository->get($id);
         $user->edit(

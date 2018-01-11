@@ -20,7 +20,7 @@ class ContactService
         $this->mailer = $mailer;
     }
 
-    public function send(ContactForm $form)
+    public function send(ContactForm $form): void
     {
         $send = $this->mailer->compose()
             ->setTo($this->adminEmai)

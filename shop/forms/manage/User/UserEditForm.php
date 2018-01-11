@@ -21,7 +21,7 @@ class UserEditForm extends Model
         parent::__construct($config);
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['username', 'email'], 'required'],

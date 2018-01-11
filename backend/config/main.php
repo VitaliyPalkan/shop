@@ -9,6 +9,10 @@ $params = array_merge(
 return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
+    'aliases' => [
+        '@staticRoot' => $params['staticPath'],
+        '@static'   => $params['staticHostInfo'],
+    ],
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => [
         'log',
@@ -24,7 +28,7 @@ return [
         'user' => [
             'identityClass' => 'shop\entities\User\User',
             'enableAutoLogin' => true,
-            'loginUrl' => 'site/login',
+            'loginUrl' => ['auth/login'],
             'identityCookie' => ['name' => '_identity', 'httpOnly' => true, 'domain' => $params['cookieDomain']],
         ],
         'session' => [
@@ -56,7 +60,7 @@ return [
     ],
     'as access' => [
         'class' => 'yii\filters\AccessControl',
-        'except' => ['site/login', 'site/error'],
+        'except' => ['auth/login', 'site/error'],
         'rules' => [
             [
                 'allow' => true,

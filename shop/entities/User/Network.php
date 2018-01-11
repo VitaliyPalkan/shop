@@ -12,7 +12,7 @@ use yii\db\ActiveRecord;
  */
 class Network extends ActiveRecord
 {
-    public static function create($network, $identity)
+    public static function create($network, $identity): self
     {
         Assert::notEmpty($network);
         Assert::notEmpty($identity);
@@ -23,7 +23,7 @@ class Network extends ActiveRecord
         return $item;
     }
 
-    public function isFor($network, $identity)
+    public function isFor($network, $identity): bool
     {
         return $this->network === $network && $this->identity === $identity;
     }

@@ -14,7 +14,7 @@ class NetworkService
         $this->users = $users;
     }
 
-    public function auth($network, $identity)
+    public function auth($network, $identity): User
     {
         if ($user = $this->users->findByNetworkIdentity($network, $identity)) {
             return $user;
@@ -24,7 +24,7 @@ class NetworkService
         return $user;
     }
 
-    public function attach($id, $network, $identity)
+    public function attach($id, $network, $identity): void
     {
         if ($this->users->findByNetworkIdentity($network, $identity)) {
             throw new \DomainException('Network is already signed up.');
